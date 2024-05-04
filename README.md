@@ -9,12 +9,12 @@ Elixir. To use it do the folowing:
 
 - asdf install
 - mix deps.get
-- iex -S mix
 
 You'll see some output as various processes are started that are
 used to demo aspects of Supervision. Example:
 
 ```
+$ iex -S mix
 Elixir.Supervise.Application is starting
 Elixir.Supervise.Restart.StartupWait GenServer is starting
 Elixir.Supervise.Strategies.SuperviseOneForOne is starting, opts = [strategy: :one_for_one, max_restarts: 3, max_seconds: 5]
