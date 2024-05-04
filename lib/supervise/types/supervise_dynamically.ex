@@ -14,8 +14,6 @@ defmodule Supervise.Types.SuperviseDynamically do
 
   @impl true
   def init(:ok) do
-    IO.puts("#{__MODULE__} is starting")
-
     opts = [
       strategy: :one_for_one,
       max_restarts: 3,
@@ -23,6 +21,8 @@ defmodule Supervise.Types.SuperviseDynamically do
       max_children: 10,
       extra_arguments: []
     ]
+
+    IO.puts("#{__MODULE__} is starting, opts = #{inspect(opts)}")
 
     DynamicSupervisor.init(opts)
   end

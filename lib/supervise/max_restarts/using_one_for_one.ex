@@ -1,4 +1,4 @@
-defmodule Supervise.MaxRestarts.SuperviseOneForAll do
+defmodule Supervise.MaxRestarts.UsingOneForOne do
   use Supervisor
 
   import Supervise.Utils.Process
@@ -6,16 +6,10 @@ defmodule Supervise.MaxRestarts.SuperviseOneForAll do
   alias Supervise.Workers.SimpleWorker
 
   @child_names [
-    :max_restarts_one_for_all_worker1,
-    :max_restarts_one_for_all_worker2,
-    :max_restarts_one_for_all_worker3,
-    :max_restarts_one_for_all_worker4,
-    :max_restarts_one_for_all_worker5,
-    :max_restarts_one_for_all_worker6,
-    :max_restarts_one_for_all_worker7,
-    :max_restarts_one_for_all_worker8,
-    :max_restarts_one_for_all_worker9,
-    :max_restarts_one_for_all_worker10
+    :max_restarts_worker1,
+    :max_restarts_worker2,
+    :max_retarts_worker3,
+    :max_restarts_worker4
   ]
 
   def start_link(_opts) do
@@ -24,16 +18,22 @@ defmodule Supervise.MaxRestarts.SuperviseOneForAll do
 
   @impl true
   def init(:ok) do
-    IO.puts("#{__MODULE__} is starting")
+    opts = [strategy: :one_for_one, max_restarts: 3, max_seconds: 5]
+    IO.puts("#{__MODULE__} is starting, opts = #{inspect(opts)}")
     children = Enum.map(@child_names, &SimpleWorker.build_spec(&1))
-    opts = [strategy: :one_for_all, max_restarts: 3, max_seconds: 5]
     Supervisor.init(children, opts)
   end
 
-  def test_kill_one do
+  def test_kill_all do
+    IO.puts("""
+    --------------------------------------------------------------------------
+    Testing killing all children. This should cause the Supervisor to restart
+    since there are 4 children and max_restarts is set to 3.
+    --------------------------------------------------------------------------
+    """)
+
     IO.puts("Before kill, Current Supervisor pid #{inspect(Process.whereis(__MODULE__))}")
-    process_name = Enum.at(@child_names, 0)
-    stop_process(process_name)
+    Enum.each(@child_names, fn process_name -> stop_process(process_name) end)
     Process.sleep(500)
     IO.puts("After kill, Current Supervisor pid #{inspect(Process.whereis(__MODULE__))}")
   end
@@ -43,10 +43,7 @@ defmodule Supervise.MaxRestarts.SuperviseOneForAll do
 
     @child_names
     |> Enum.take(3)
-    |> Enum.each(fn process_name ->
-      stop_process(process_name)
-      Process.sleep(250)
-    end)
+    |> Enum.each(fn process_name -> stop_process(process_name) end)
 
     Process.sleep(500)
     IO.puts("After kill, Current Supervisor pid #{inspect(Process.whereis(__MODULE__))}")

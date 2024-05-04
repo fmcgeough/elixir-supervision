@@ -42,7 +42,7 @@ defmodule Supervise.Restart.StartupWait do
 
   @impl true
   def init(opts) do
-    IO.puts("#{__MODULE__} is starting")
+    IO.puts("#{__MODULE__} GenServer is starting")
 
     wait_time_ms = Keyword.get(opts, :default_wait_time, @default_wait_time_ms)
     max_wait_time_ms = Keyword.get(opts, :max_wait_time, @default_max_wait_time_ms)

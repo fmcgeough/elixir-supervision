@@ -5,9 +5,7 @@ defmodule Supervise.Workers.WaitWorker do
 
   def start_link(opts) do
     name = opts[:name] || __MODULE__
-    IO.puts("#{name} before StartupWait.register. #{inspect(Time.utc_now())}")
     StartupWait.register(name)
-    IO.puts("#{name} after StartupWait.register. #{inspect(Time.utc_now())}")
     GenServer.start_link(__MODULE__, opts[:data], name: name)
   end
 

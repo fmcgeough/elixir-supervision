@@ -12,9 +12,10 @@ defmodule Supervise.Strategies.SuperviseOneForAll do
 
   @impl true
   def init(:ok) do
-    IO.puts("#{__MODULE__} is starting")
-    children = Enum.map(@child_names, &SimpleWorker.build_spec(&1))
     opts = [strategy: :one_for_all, max_restarts: 3, max_seconds: 5]
+    IO.puts("#{__MODULE__} is starting, opts = #{inspect(opts)}")
+
+    children = Enum.map(@child_names, &SimpleWorker.build_spec(&1))
     Supervisor.init(children, opts)
   end
 

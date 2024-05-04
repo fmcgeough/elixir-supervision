@@ -16,17 +16,10 @@ defmodule Supervise.Restart.WithWait do
   end
 
   def init(:ok) do
-    IO.puts("#{__MODULE__} is starting")
+    opts = [strategy: :one_for_one, max_restarts: 3, max_seconds: 5]
+    IO.puts("#{__MODULE__} is starting, opts = #{inspect(opts)}")
 
     children = Enum.map(@child_names, &WaitWorker.build_spec(&1, :permanent))
-
-    opts = [
-      strategy: :one_for_one,
-      max_restarts: 3,
-      max_seconds: 5,
-      max_children: 10
-    ]
-
     Supervisor.init(children, opts)
   end
 

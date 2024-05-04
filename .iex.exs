@@ -12,3 +12,5 @@ alias Supervise.Timeouts.LazySupervisor
 alias Supervise.Timeouts.Lazy
 alias Supervise.Restart.WithWait
 alias Supervise.Restart.StartupWait
+alias Supervise.MaxRestarts.UsingOneForAll, as: MaxRestartsUsingOneForAll
+alias Supervise.MaxRestarts.UsingOneForOne, as: MaxRestartsUsingOneForOne

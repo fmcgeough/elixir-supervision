@@ -16,14 +16,14 @@ defmodule Supervise.Strategies.SuperviseLevels do
 
   @impl true
   def init(:ok) do
-    IO.puts("#{__MODULE__} is starting")
+    opts = [strategy: :rest_for_one, max_restarts: 3, max_seconds: 5]
+    IO.puts("#{__MODULE__} is starting, opts = #{inspect(opts)}")
 
     children = [
       SimpleWorker.build_spec(:supervise_levels_worker1),
       Supervise.Strategies.SuperviseLevels.ChildSupervisor
     ]
 
-    opts = [strategy: :rest_for_one, max_restarts: 3, max_seconds: 5]
     Supervisor.init(children, opts)
   end
 

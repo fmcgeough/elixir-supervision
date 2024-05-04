@@ -19,8 +19,8 @@ defmodule Supervise.Application do
       Supervise.RestartTypes.Permanent,
       Supervise.RestartTypes.Temporary,
       Supervise.RestartTypes.Transient,
-      Supervise.MaxRestarts.SuperviseOneForOne,
-      Supervise.MaxRestarts.SuperviseOneForAll,
+      Supervise.MaxRestarts.UsingOneForOne,
+      Supervise.MaxRestarts.UsingOneForAll,
       # Supervise.Timeouts.LazySupervisor,
       Supervise.Restart.WithWait
     ]
